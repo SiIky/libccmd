@@ -63,3 +63,8 @@ install_headers:
 	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
 
 install: install_static install_shared install_headers
+
+uninstall:
+	rm -f $(DESTDIR)/include/ccmd.h
+	rm -f $(DESTDIR)/lib/libccmd.so
+	rm -f $(DESTDIR)/lib/libccmd.a
