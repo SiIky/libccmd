@@ -53,5 +53,13 @@ distclean: clean
 check: $(OUT)/ccmd_test
 	$(OUT)/ccmd_test suite
 
-install:
-	echo TODO
+install_static:
+	install -Dm644 $(OUT)/libccmd.a $(DESTDIR)/lib/libccmd.a
+
+install_shared:
+	install -Dm755 $(OUT)/libccmd.so $(DESTDIR)/lib/libccmd.so
+
+install_headers:
+	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
+
+install: install_static install_shared install_headers
