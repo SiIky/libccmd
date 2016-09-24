@@ -36,7 +36,9 @@ $(OUT)/ccmd_test: $(BASEDIR)/test/main.c $(OUT)/libccmd.a
 		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
 		-L$(OUT) -l:libccmd.a $(CFLAGS)
 
-.PHONY: all_static all_shared all clean distclean check install
+.PHONY: all_static all_shared all \
+	install install_static install_shared install_headers \
+	uninstall clean distclean check
 .DEFAULT_GOAL=all
 
 all_static: $(OUT)/libccmd.a
