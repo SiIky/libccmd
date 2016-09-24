@@ -3,6 +3,7 @@ LD?=ld
 AR?=ar
 
 CFLAGS?=
+LDFLAGS?=
 
 BASEDIR?=.
 OUT:=$(BASEDIR)/bin
@@ -25,7 +26,7 @@ $(OUT)/%.o: $(BASEDIR)/src/%.c $(INCLUDES)
 	$(CC) -g -c -o $@ -fPIC -I$(BASEDIR)/src -I$(BASEDIR)/include $(CFLAGS) $<
 
 $(OUT)/libccmd.so: $(OBJECTS)
-	$(LD) -shared -o $@ $^ -lc
+	$(LD) -shared -o $@ $^ -lc $(LDFLAGS)
 
 $(OUT)/libccmd.a: $(OBJECTS)
 	$(AR) cr $@ $^
