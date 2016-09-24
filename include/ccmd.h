@@ -1,4 +1,4 @@
-/* This file is part of libccmd.  */
+/* This file is part of libccmd */
 
 #pragma once
 
@@ -32,3 +32,13 @@ ccmd_res_t *ccmd_exec(ccmd_t *ccmd, const char *cmd);
  * to free, but you're responsible for freeing whatever 'data' is.
  */
 ccmd_res_t *ccmd_result(int exit, void *data);
+
+/*
+ * Splits a string into an argument vector.
+ */
+char **ccmd_split(const char *cmd, int *argc);
+
+/*
+ * Joins an argument vector into one string.
+ */
+char *ccmd_join(int argc, char **argv);

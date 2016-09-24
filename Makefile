@@ -12,11 +12,13 @@ DESTDIR:=$(PREFIX)
 OBJECTS:=\
 	$(OUT)/ccmd_init.o \
 	$(OUT)/ccmd_result.o \
-	$(OUT)/ccmd_exec.o
+	$(OUT)/ccmd_exec.o \
+	$(OUT)/ccmd_split.o \
+	$(OUT)/ccmd_join.o
 
 INCLUDES:=\
 	$(BASEDIR)/include/ccmd.h \
-	$(BASEDIR)/include/ccmd_t.h
+	$(BASEDIR)/src/ccmd_t.h
 
 $(OUT)/%.o: $(BASEDIR)/src/%.c $(INCLUDES)
 	mkdir -p $(OUT)

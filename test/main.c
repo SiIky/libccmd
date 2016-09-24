@@ -19,16 +19,9 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	ccmd_t *ccmd = ccmd_init(commands, sizeof(commands) / sizeof(ccmd_def_t));
-	char *joined = strdup(argv[1]);
-	for (int i = 2; i < argc; ++i) {
-		char *new = malloc(strlen(joined) + strlen(argv[i]) + 2);
-		strcpy(new, joined);
-		strcat(new, " ");
-		strcat(new, argv[i]);
-		free(joined);
-		joined = new;
-	}
-	ccmd_res_t *res = ccmd_exec(ccmd, joined);
+	char *cmd = ccmd_join(argc - 1, argv + 1);
+	ccmd_res_t *res = ccmd_exec(ccmd, cmd);
+	free(cmd);
 	if (!res) {
 		fprintf(stderr, "No such command: %s\n", argv[1]);
 		return 1;
@@ -39,6 +32,5 @@ int main(int argc, char **argv) {
 	}
 	int exit = res->exit;
 	free(res);
-	free(joined);
 	return exit;
 }
