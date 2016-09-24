@@ -1,13 +1,13 @@
-CC:=gcc
-LD:=ld
-AR:=ar
+CC?=gcc
+LD?=ld
+AR?=ar
 
-CFLAGS:=
+CFLAGS?=
 
-BASEDIR:=.
+BASEDIR?=.
 OUT:=$(BASEDIR)/bin
-PREFIX:=/usr/local
-DESTDIR:=$(PREFIX)
+PREFIX?=/usr/local
+DESTDIR?=$(PREFIX)
 
 OBJECTS:=\
 	$(OUT)/ccmd_init.o \
