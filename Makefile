@@ -33,10 +33,14 @@ $(OUT)/ccmd_test: $(BASEDIR)/test/main.c $(OUT)/libccmd.a
 		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
 		-L$(OUT) -lccmd $(CFLAGS)
 
-.PHONY: all clean distclean check install
+.PHONY: all_static all_shared all clean distclean check install
 .DEFAULT_GOAL=all
 
-all: $(OUT)/libccmd.a $(OUT)/libccmd.so
+all_static: $(OUT)/libccmd.a
+
+all_shared: $(OUT)/libccmd.so
+
+all: all_static all_shared
 
 clean:
 	rm -rf $(OUT)
