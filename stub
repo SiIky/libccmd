@@ -1,0 +1,7 @@
+# vim: set ft=make:
+PHONY:=$(PHONY) libccmd
+LIBCCMD_LDFLAGS=-Llibccmd/bin/ -l:libccmd.a
+LIBCCMD_CFLAGS=-Ilibccmd/include/
+
+libccmd: libccmd/bin/libccmd.a
+	cd libccmd && make all_static

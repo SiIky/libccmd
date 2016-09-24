@@ -20,7 +20,7 @@ INCLUDES:=\
 
 $(OUT)/%.o: $(BASEDIR)/src/%.c $(INCLUDES)
 	mkdir -p $(OUT)
-	$(CC) -g -c -o $@ -fPIC -I$(BASEDIR)/include $(CFLAGS) $<
+	$(CC) -g -c -o $@ -fPIC -I$(BASEDIR)/src -I$(BASEDIR)/include $(CFLAGS) $<
 
 $(OUT)/libccmd.so: $(OBJECTS)
 	$(LD) -shared -o $@ $^ -lc
@@ -29,9 +29,9 @@ $(OUT)/libccmd.a: $(OBJECTS)
 	$(AR) cr $@ $^
 
 $(OUT)/ccmd_test: $(BASEDIR)/test/main.c $(OUT)/libccmd.a
-	$(CC) -static -g -o $@ \
+	$(CC) -g -o $@ \
 		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
-		-L$(OUT) -lccmd $(CFLAGS)
+		-L$(OUT) -l:libccmd.a $(CFLAGS)
 
 .PHONY: all_static all_shared all clean distclean check install
 .DEFAULT_GOAL=all
