@@ -19,6 +19,14 @@ struct ccmd_res {
 };
 
 /*
+ * Useful macro for calling ccmd_init:
+ *
+ * const ccmd_def_t commands[10];
+ * ccmd_init(ccmds(commands));
+ */
+#define ccmds(arr) arr, sizeof(arr) / sizeof(ccmd_def_t)
+
+/*
  * Initializes a command handler with the given list of available commands.
  */
 ccmd_t *ccmd_init(const ccmd_def_t commands[], int len);

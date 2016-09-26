@@ -1,0 +1,76 @@
+                                    libccmd
+
+This is libccmd, a library for command handling in C.
+
+This library allows you to easily implement commands in your software. These
+commands can be used to control your interface, either through keybindings, IPC,
+readline, or any other UI you can get command strings from.
+
+                                    EXAMPLE
+
+This example uses ccmd_exec to run the cmd_echo function.
+
+    #define _POSIX_C_SOURCE 200809L
+    #include "ccmd.h"
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <string.h>
+
+    static ccmd_res_t *cmd_echo(int argc, char **argv) {
+        for (int i = 0; i < argc; ++i) {
+            printf("%s\n", argv[i]);
+        }
+        return ccmd_result(0, NULL);
+    }
+
+    ccmd_def_t commands[] = {
+        { "echo", cmd_echo }
+    };
+
+    int main(int argc, char **argv) {
+        ccmd_t *ccmd = ccmd_init(ccmds(commands));
+        ccmd_res_t *res = ccmd_exec(ccmd, "echo foo bar baz");
+        if (!res) {
+            fprintf(stderr, "No such command: %s\n", argv[1]);
+            return 1;
+        }
+        int exit = res->exit;
+        free(res);
+        return exit;
+    }
+
+                                   INSTALLING
+
+    $ make
+    # make install
+
+This installs in /usr/local. You can set a prefix like so:
+
+    $ make PREFIX=/usr
+    # make install PREFIX=/usr
+
+Or specify a DESTDIR:
+
+    $ make PREFIX=/usr
+    # make install DESTDIR=/usr PREFIX=/usr
+
+Other variables are available to customize your build, read the Makefile.
+
+                              BUILDING STATICALLY
+
+You can drop a libccmd tree into your project at libccmd/, either from a release
+tarball or git submodules/subtress or whatever suits you. If you do so, you can
+easily statically link with libccmd by adding this to your Makefile:
+
+    include libccmd/stub
+
+You'll get a libccmd target, LIBCCMD_LDFLAGS, and LIBCCMD_CFLAGS. So your
+Makefile might look like this:
+
+    include libccmd/stub
+
+    foobar.o: libccmd foobar.c
+        cc -c -o foobar.o $(LIBCCMD_CFLAGS) foobar.c
+
+    foobar: libccmd foobar.o
+        ld -o foobar $(LIBCCMD_LDFLAGS) foobar.o

@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Usage: ccmd_test cmd (args...)\n");
 		return 1;
 	}
-	ccmd_t *ccmd = ccmd_init(commands, sizeof(commands) / sizeof(ccmd_def_t));
+	ccmd_t *ccmd = ccmd_init(ccmds(commands));
 	char *cmd = ccmd_join(argc - 1, argv + 1);
 	ccmd_res_t *res = ccmd_exec(ccmd, cmd);
 	free(cmd);
