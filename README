@@ -78,22 +78,3 @@ Or specify a DESTDIR:
     # make install DESTDIR=/usr PREFIX=/usr
 
 Other variables are available to customize your build, read the Makefile.
-
-                              BUILDING STATICALLY
-
-You can drop a libccmd tree into your project at libccmd/, either from a release
-tarball or git submodules/subtress or whatever suits you. If you do so, you can
-easily statically link with libccmd by adding this to your Makefile:
-
-    include libccmd/stub
-
-You'll get a libccmd target, LIBCCMD_LDFLAGS, and LIBCCMD_CFLAGS. So your
-Makefile might look like this:
-
-    include libccmd/stub
-
-    foobar.o: libccmd foobar.c
-        cc -c -o foobar.o $(LIBCCMD_CFLAGS) foobar.c
-
-    foobar: libccmd foobar.o
-        ld -o foobar $(LIBCCMD_LDFLAGS) foobar.o
