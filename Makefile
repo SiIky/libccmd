@@ -14,8 +14,11 @@ OBJECTS:=\
 	$(OUT)/ccmd_init.o \
 	$(OUT)/ccmd_result.o \
 	$(OUT)/ccmd_exec.o \
+	$(OUT)/ccmd_execv.o \
+	$(OUT)/ccmd_execl.o \
 	$(OUT)/ccmd_split.o \
-	$(OUT)/ccmd_join.o
+	$(OUT)/ccmd_join.o \
+	$(OUT)/ccmd_argv_free.o
 
 INCLUDES:=\
 	$(BASEDIR)/include/ccmd.h \
