@@ -32,6 +32,11 @@ struct ccmd_res {
 ccmd_t *ccmd_init(const ccmd_def_t commands[], int len);
 
 /*
+ * Frees a command handler.
+ */
+void ccmd_free(ccmd_t *ccmd);
+
+/*
  * Parses and executes a command and returns the result. Returns NULL if the
  * command cannot be executed.
  */

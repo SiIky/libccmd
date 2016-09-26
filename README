@@ -6,6 +6,29 @@ This library allows you to easily implement commands in your software. These
 commands can be used to control your interface, either through keybindings, IPC,
 readline, or any other UI you can get command strings from.
 
+                                     STATUS
+
+Currently polishing this for its initial release.
+
+                                      API
+
+See include/ccmd.h, or refer to your system copy.
+
+ccmd_init
+    Takes an array of ccmd_def_t and returns a ccmd_t *
+
+ccmd_free 
+    Frees a ccmd_t
+
+ccmd_exec/ccmd_execv/ccmd_execl
+    Matches and executes commands, then returns a ccmd_res_t *
+
+ccmd_join/ccmd_split/ccmd_argv_free
+    Utility functions for working with argument vectors
+
+ccmd_result
+    Utility function to produce a ccmd_res_t in command handlers
+
                                     EXAMPLE
 
 This example uses ccmd_exec to run the cmd_echo function.

@@ -12,6 +12,7 @@ DESTDIR?=$(PREFIX)
 
 OBJECTS:=\
 	$(OUT)/ccmd_init.o \
+	$(OUT)/ccmd_free.o \
 	$(OUT)/ccmd_result.o \
 	$(OUT)/ccmd_exec.o \
 	$(OUT)/ccmd_execv.o \
