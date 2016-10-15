@@ -6,62 +6,63 @@ CFLAGS?=__CFLAGS__
 LDFLAGS?=__LDFLAGS__
 
 BASEDIR?=__BASEDIR__
-OUT:=bin
+SRC:=$(BASEDIR)/src
 PREFIX?=__PREFIX__
 DESTDIR?=$(PREFIX)
 
 OBJECTS:=\
-	$(OUT)/ccmd_init.o \
-	$(OUT)/ccmd_free.o \
-	$(OUT)/ccmd_result.o \
-	$(OUT)/ccmd_exec.o \
-	$(OUT)/ccmd_execv.o \
-	$(OUT)/ccmd_execl.o \
-	$(OUT)/ccmd_split.o \
-	$(OUT)/ccmd_join.o \
-	$(OUT)/ccmd_argv_free.o
+	ccmd_init.o \
+	ccmd_free.o \
+	ccmd_result.o \
+	ccmd_exec.o \
+	ccmd_execv.o \
+	ccmd_execl.o \
+	ccmd_split.o \
+	ccmd_join.o \
+	ccmd_argv_free.o
 
 INCLUDES:=\
 	$(BASEDIR)/include/ccmd.h \
-	$(BASEDIR)/src/ccmd_t.h
+	$(SRC)/ccmd_t.h
 
-$(OUT)/%.o: $(BASEDIR)/src/%.c $(INCLUDES)
-	mkdir -p $(OUT)
-	$(CC) -g -c -o $@ -fPIC -I$(BASEDIR)/src -I$(BASEDIR)/include $(CFLAGS) $<
+%.o: $(SRC)/%.c $(INCLUDES)
+	$(CC) -g -c -o $@ -fPIC -I$(SRC) -I$(BASEDIR)/include $(CFLAGS) $<
 
-$(OUT)/libccmd.so: $(OBJECTS)
+libccmd.so: $(OBJECTS)
 	$(LD) -shared -o $@ $^ -lc $(LDFLAGS)
 
-$(OUT)/libccmd.a: $(OBJECTS)
+libccmd.a: $(OBJECTS)
 	$(AR) cr $@ $^
 
-$(OUT)/ccmd_test: $(BASEDIR)/test/main.c $(OUT)/libccmd.a
+ccmd_test: $(BASEDIR)/test/main.c libccmd.a
 	$(CC) -g -o $@ \
 		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
-		-L$(OUT) -l:libccmd.a $(CFLAGS)
+		-L. -l:libccmd.a $(CFLAGS)
 
 .PHONY: all_static all_shared all \
 	install install_static install_shared install_headers \
 	uninstall clean distclean check
 .DEFAULT_GOAL=all
 
-all_static: $(OUT)/libccmd.a
+all_static: libccmd.a
 
-all_shared: $(OUT)/libccmd.so
+all_shared: libccmd.so
 
 clean:
-	rm -rf $(OUT)
+	find . -name "*.o" -delete
+	find . -name "*.so" -delete
+	find . -name "*.a" -delete
 
 distclean: clean
 
-check: $(OUT)/ccmd_test
-	$(OUT)/ccmd_test suite
+check: ccmd_test
+	./ccmd_test suite
 
 install_static:
-	install -Dm644 $(OUT)/libccmd.a $(DESTDIR)/lib/libccmd.a
+	install -Dm644 libccmd.a $(DESTDIR)/lib/libccmd.a
 
 install_shared:
-	install -Dm755 $(OUT)/libccmd.so $(DESTDIR)/lib/libccmd.so
+	install -Dm755 libccmd.so $(DESTDIR)/lib/libccmd.so
 
 install_headers:
 	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
