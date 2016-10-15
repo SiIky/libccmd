@@ -18,11 +18,11 @@ OPTIONS
     --prefix=[/usr/local]
         Sets the installation prefix.
 
-    --enable-static (default)
+    --enable-static [default]
     --disable-static
         Enables or disables building and installing the static libraries.
 
-    --enable-shared (default)
+    --enable-shared [default]
     --disable-shared
         Enables or disables building and installing the shared libraries.
 EOF
