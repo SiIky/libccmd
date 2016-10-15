@@ -36,4 +36,8 @@ cpp() {
         "$base/Makefile.in" -o Makefile \
         "-D __BASEDIR__=$base" \
         $cflags $ldflags $cc $ld $ar $prefix "$@"
+    $_cpp -P -nostdinc -traditional-cpp \
+        "$base/config.mk.in" -o config.mk \
+        "-D __BASEDIR__=$base" \
+        $cflags $ldflags $cc $ld $ar $prefix "$@"
 }

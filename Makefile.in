@@ -1,14 +1,5 @@
-CC?=__CC__
-LD?=__LD__
-AR?=__AR__
-
-CFLAGS?=__CFLAGS__
-LDFLAGS?=__LDFLAGS__
-
-BASEDIR?=__BASEDIR__
+include config.mk
 SRC:=$(BASEDIR)/src
-PREFIX?=__PREFIX__
-DESTDIR?=$(PREFIX)
 
 OBJECTS:=\
 	ccmd_init.o \
@@ -39,21 +30,13 @@ ccmd_test: $(BASEDIR)/test/main.c libccmd.a
 		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
 		-L. -l:libccmd.a $(CFLAGS)
 
-.PHONY: all_static all_shared all \
-	install install_static install_shared install_headers \
-	uninstall clean distclean check
-.DEFAULT_GOAL=all
+all: __ALL__
+
+install: __INSTALL__ install_headers
 
 all_static: libccmd.a
 
 all_shared: libccmd.so
-
-clean:
-	find . -name "*.o" -delete
-	find . -name "*.so" -delete
-	find . -name "*.a" -delete
-
-distclean: clean
 
 check: ccmd_test
 	./ccmd_test suite
@@ -67,11 +50,11 @@ install_shared:
 install_headers:
 	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
 
-all: __ALL__
-
-install: __INSTALL__ install_headers
-
 uninstall:
 	rm -f $(DESTDIR)/include/ccmd.h
 	rm -f $(DESTDIR)/lib/libccmd.so
 	rm -f $(DESTDIR)/lib/libccmd.a
+
+.PHONY: all_static all_shared all \
+	install install_static install_shared install_headers \
+	uninstall clean distclean check
