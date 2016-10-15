@@ -5,11 +5,35 @@ base=$(dirname "$(readlink -f "$0")")
 static="-D __ENABLE_STATIC__"
 shared="-D __ENABLE_SHARED__"
 
+show_help() {
+    cat <<EOF
+Configures a libccmd build.
+
+USAGE
+    $ $0 [options...]
+    $ make
+    # sudo make install
+
+OPTIONS
+    --prefix=[/usr/local]
+        Sets the installation prefix.
+
+    --enable-static (default)
+    --disable-static
+        Enables or disables building and installing the static libraries.
+
+    --enable-shared (default)
+    --disable-shared
+        Enables or disables building and installing the shared libraries.
+EOF
+}
+
 while [ $# -gt 0 ]
 do
     key=$(parsearg -k "$1")
     val=$(parsearg -v "$1")
     case "$key" in
+        --help) show_help; exit 0 ;;
         --prefix) prefix="-D __PREFIX__=$val" ;;
         --enable-static) ;;
         --disable-static) static= ;;

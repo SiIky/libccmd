@@ -6,11 +6,11 @@ This library allows you to easily implement commands in your software. These
 commands can be used to control your interface, either through keybindings, IPC,
 readline, or any other UI you can get command strings from.
 
-                                     STATUS
+STATUS
 
 Currently polishing this for its initial release.
 
-                                      API
+API
 
 See include/ccmd.h, or refer to your system copy.
 
@@ -29,7 +29,7 @@ ccmd_join/ccmd_split/ccmd_argv_free
 ccmd_result
     Utility function to produce a ccmd_res_t in command handlers
 
-                                    EXAMPLE
+EXAMPLE
 
 This example uses ccmd_exec to run the cmd_echo function.
 
@@ -62,19 +62,11 @@ This example uses ccmd_exec to run the cmd_echo function.
         return exit;
     }
 
-                                   INSTALLING
+INSTALLATION
 
+    $ mkdir build && cd build
+    $ ../configure
     $ make
     # make install
 
-This installs in /usr/local. You can set a prefix like so:
-
-    $ make PREFIX=/usr
-    # make install PREFIX=/usr
-
-Or specify a DESTDIR:
-
-    $ make PREFIX=/usr
-    # make install DESTDIR=/usr PREFIX=/usr
-
-Other variables are available to customize your build, read the Makefile.
+Use ../configure --help for assistance.
