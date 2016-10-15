@@ -32,7 +32,5 @@ done
 [ "$static" ] && add install all_static
 [ "$shared" ] && add install all_shared
 
-cat "$base/Makefile.in" | cpp \
-    "-D __ALL__=$all" \
-    "-D __INSTALL__=$install" \
-    $static $shared
+cpp $static $shared \
+    "-D __ALL__=$all" "-D __INSTALL__=$install"

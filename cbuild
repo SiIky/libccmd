@@ -37,7 +37,8 @@ add() {
 
 _cpp=$(which cpp)
 cpp() {
-    $_cpp -P -nostdinc -traditional-cpp -o Makefile \
+    $_cpp -P -nostdinc -traditional-cpp \
+        "$base/Makefile.in" -o Makefile \
         "-D __BASEDIR__=$base" \
         $cflags $ldflags $cc $ld $ar $prefix "$@"
 }
