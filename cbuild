@@ -1,12 +1,12 @@
 # vim: set ft=sh:
 base=$(dirname "$(readlink -f "$0")")
 [ "$(readlink -f .)" == "$base" ] && {
-    echo "Building in-tree is not supported"
+    echo "Building in-tree is discouraged"
     echo
     echo "    mkdir build"
     echo "    cd build"
     echo "    ../configure"
-    exit 1
+    echo
 }
 
 prefix="-D __PREFIX__=/usr/local"
@@ -48,4 +48,6 @@ cpp() {
         "$base/config.mk.in" -o config.mk \
         "-D __BASEDIR__=$base" \
         $cflags $ldflags $cc $ld $ar $prefix "$@"
+
+    echo "Configuration complete. Next, run make."
 }

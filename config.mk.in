@@ -17,3 +17,5 @@ clean:
 	find . -name "*.a" -delete
 
 distclean: clean
+	rm Makefile
+	rm config.mk
