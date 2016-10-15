@@ -14,12 +14,8 @@ ar="-D __AR__=$AR"
 
 parsearg() {
     case "$1" in
-        -k)
-            printf "%s" "$2" | cut -d= -f1
-            ;;
-        -v)
-            printf "%s" "$2" | cut -d= -f2
-            ;;
+        -k) printf "%s" "$2" | cut -d= -f1 ;;
+        -v) printf "%s" "$2" | cut -d= -f2 ;;
         *) break ;;
     esac
 }

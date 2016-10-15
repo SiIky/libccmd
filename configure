@@ -10,17 +10,11 @@ do
     key=$(parsearg -k "$1")
     val=$(parsearg -v "$1")
     case "$key" in
-        --prefix)
-            prefix="-D __PREFIX__=$val"
-            ;;
+        --prefix) prefix="-D __PREFIX__=$val" ;;
         --enable-static) ;;
-        --disable-static)
-            static=
-            ;;
+        --disable-static) static= ;;
         --enable-shared) ;;
-        --disable-shared)
-            shared=
-            ;;
+        --disable-shared) shared= ;;
         *) unknown_opt "$1" ;;
     esac
     shift
