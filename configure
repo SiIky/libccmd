@@ -1,29 +1,24 @@
 #!/usr/bin/env sh
-base=$(dirname "$(readlink -f "$0")")
-. "$base/cbuild"
+. ${SCMAKE:-/usr/lib/scmake}/lib.sh
 
-static="-D__ENABLE_STATIC__"
-shared="-D__ENABLE_SHARED__"
+static=yes
+shared=yes
 
 show_help() {
     cat <<EOF
-Configures a libccmd build.
-
 USAGE
     $ $0 [options...]
     $ make
     # sudo make install
 
 OPTIONS
-    --prefix=[/usr/local]
+    Defaults shown.
+
+    --prefix=$prefix
         Sets the installation prefix.
-
-    --enable-static [default]
-    --disable-static
+    --static=$static
         Enables or disables building and installing the static libraries.
-
-    --enable-shared [default]
-    --disable-shared
+    --shared=$shared
         Enables or disables building and installing the shared libraries.
 EOF
 }
@@ -34,22 +29,25 @@ do
     val=$(parsearg -v "$1")
     case "$key" in
         --help) show_help; exit 0 ;;
-        --prefix) prefix="-D__PREFIX__=$val" ;;
-        --enable-static) ;;
-        --disable-static) static= ;;
-        --enable-shared) ;;
-        --disable-shared) shared= ;;
-        *) unknown_opt "$1" ;;
+        --prefix) prefix="$val" ;;
+        --static) static="$val" ;;
+        --shared) shared="$val" ;;
+        *) error_opt "$1" ;;
     esac
     shift
 done
 
-all="-D__ALL__="
-[ "$static" ] && add all all_static
-[ "$shared" ] && add all all_shared
+setdefaults
+setbool static
+setbool shared
 
-install="-D__INSTALL__="
-[ "$static" ] && add install all_static
-[ "$shared" ] && add install all_shared
+[ $static ] && add all all_static
+[ $static ] && add install all_static
 
-cpp "$all" "$install"
+[ $shared ] && add all all_shared
+[ $shared ] && add install all_shared
+
+setstr all __ALL__
+setstr install __INSTALL__
+
+gen "$all" "$install"

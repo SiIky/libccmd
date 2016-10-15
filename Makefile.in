@@ -1,7 +1,7 @@
-include "config.mk"
-SRC:=$(BASEDIR)/src
+include config.mk
+SRC:=$(BASE)/src
 
-OBJECTS:=\
+OBJECTS=\
 	ccmd_init.o \
 	ccmd_free.o \
 	ccmd_result.o \
@@ -12,12 +12,12 @@ OBJECTS:=\
 	ccmd_join.o \
 	ccmd_argv_free.o
 
-INCLUDES:=\
-	$(BASEDIR)/include/ccmd.h \
+INCLUDES=\
+	$(BASE)/include/ccmd.h \
 	$(SRC)/ccmd_t.h
 
 %.o: $(SRC)/%.c $(INCLUDES)
-	$(CC) -g -c -o $@ -fPIC -I$(SRC) -I$(BASEDIR)/include $(CFLAGS) $<
+	$(CC) -g -c -o $@ -fPIC -I$(SRC) -I$(BASE)/include $(CFLAGS) $<
 
 libccmd.so: $(OBJECTS)
 	$(LD) -shared -o $@ $^ -lc $(LDFLAGS)
@@ -25,9 +25,9 @@ libccmd.so: $(OBJECTS)
 libccmd.a: $(OBJECTS)
 	$(AR) cr $@ $^
 
-ccmd_test: $(BASEDIR)/test/main.c libccmd.a
+ccmd_test: $(BASE)/test/main.c libccmd.a
 	$(CC) -g -o $@ \
-		$(BASEDIR)/test/main.c -I$(BASEDIR)/include \
+		$(BASE)/test/main.c -I$(BASE)/include \
 		-L. -l:libccmd.a $(CFLAGS)
 
 all: __ALL__
@@ -48,7 +48,7 @@ install_shared:
 	install -Dm755 libccmd.so $(DESTDIR)/lib/libccmd.so
 
 install_headers:
-	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
+	install -Dm644 $(BASE)/include/ccmd.h $(DESTDIR)/include/ccmd.h
 
 uninstall:
 	rm -f $(DESTDIR)/include/ccmd.h
