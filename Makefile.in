@@ -55,6 +55,12 @@ uninstall:
 	rm -f $(DESTDIR)/lib/libccmd.so
 	rm -f $(DESTDIR)/lib/libccmd.a
 
+clean:
+	find . -name "*.o" -delete
+	find . -name "*.so" -delete
+	find . -name "*.a" -delete
+	rm -f ccmd_test
+
 .PHONY: all_static all_shared all \
 	install install_static install_shared install_headers \
 	uninstall clean distclean check
