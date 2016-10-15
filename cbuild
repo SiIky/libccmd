@@ -1,5 +1,13 @@
 # vim: set ft=sh:
 base=$(dirname "$(readlink -f "$0")")
+[ "$(readlink -f .)" == "$base" ] && {
+    echo "Building in-tree is not supported"
+    echo
+    echo "    mkdir build"
+    echo "    cd build"
+    echo "    ../configure"
+    exit 1
+}
 
 prefix="-D __PREFIX__=/usr/local"
 cflags="-D __CFLAGS__=$CFLAGS"
