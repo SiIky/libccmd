@@ -20,11 +20,12 @@ do
     shift
 done
 
+all="-D __ALL__="
 [ "$static" ] && add all all_static
 [ "$shared" ] && add all all_shared
 
+install="-D __INSTALL__="
 [ "$static" ] && add install all_static
 [ "$shared" ] && add install all_shared
 
-cpp $static $shared \
-    "-D __ALL__=$all" "-D __INSTALL__=$install"
+cpp "$static" "$shared" "$all" "$install"

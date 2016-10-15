@@ -26,9 +26,8 @@ unknown_opt() {
 }
 
 add() {
-    [ -z $(eval "echo \$$1") ] && eval "$1=''"
-    eval "$1=\"\$$1 $2\""
-    eval "$1=\$(echo "\$$1" | xargs)"
+    val=$(echo "$2" | xargs)
+    eval "$1=\"\${$1}$val \""
 }
 
 _cpp=$(which cpp)
