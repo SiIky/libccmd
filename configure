@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+base=$(dirname "$(readlink -f "$0")")
+. "$base/cbuild"
+
+static="-D __ENABLE_STATIC__"
+shared="-D __ENABLE_SHARED__"
+
+while [ $# -gt 0 ]
+do
+    key=$(parsearg -k "$1")
+    val=$(parsearg -v "$1")
+    case "$key" in
+        --prefix)
+            prefix="-D __PREFIX__=$val"
+            ;;
+        --enable-static) ;;
+        --disable-static)
+            static=
+            ;;
+        --enable-shared) ;;
+        --disable-shared)
+            shared=
+            ;;
+        *) unknown_opt "$1" ;;
+    esac
+    shift
+done
+
+[ "$static" ] && add all all_static
+[ "$shared" ] && add all all_shared
+
+[ "$static" ] && add install all_static
+[ "$shared" ] && add install all_shared
+
+cat "$base/Makefile.in" | cpp \
+    "-D __ALL__=$all" \
+    "-D __INSTALL__=$install" \
+    $static $shared

@@ -1,0 +1,43 @@
+# vim: set ft=sh:
+base=$(dirname "$(readlink -f "$0")")
+
+prefix="-D __PREFIX__=/usr/local"
+cflags="-D __CFLAGS__=$CFLAGS"
+ldflags="-D __LDFLAGS__=$LDFLAGS"
+[ -z "$CC" ] && CC=$(which cc)
+[ -z "$CC" ] && CC=$(which gcc)
+[ -z "$LD" ] && LD=ld
+[ -z "$AR" ] && AR=ar
+cc="-D __CC__=$CC"
+ld="-D __LD__=$LD"
+ar="-D __AR__=$AR"
+
+parsearg() {
+    case "$1" in
+        -k)
+            printf "%s" "$2" | cut -d= -f1
+            ;;
+        -v)
+            printf "%s" "$2" | cut -d= -f2
+            ;;
+        *) break ;;
+    esac
+}
+
+unknown_opt() {
+    echo "Unknown option $1"
+    exit 1
+}
+
+add() {
+    [ -z $(eval "echo \$$1") ] && eval "$1=''"
+    eval "$1=\"\$$1 $2\""
+    eval "$1=\$(echo "\$$1" | xargs)"
+}
+
+_cpp=$(which cpp)
+cpp() {
+    $_cpp -P -nostdinc -traditional-cpp -o Makefile \
+        "-D __BASEDIR__=$base" \
+        $cflags $ldflags $cc $ld $ar $prefix "$@"
+}

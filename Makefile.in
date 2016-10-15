@@ -1,13 +1,13 @@
-CC?=gcc
-LD?=ld
-AR?=ar
+CC?=__CC__
+LD?=__LD__
+AR?=__AR__
 
-CFLAGS?=
-LDFLAGS?=
+CFLAGS?=__CFLAGS__
+LDFLAGS?=__LDFLAGS__
 
-BASEDIR?=.
-OUT:=$(BASEDIR)/bin
-PREFIX?=/usr/local
+BASEDIR?=__BASEDIR__
+OUT:=bin
+PREFIX?=__PREFIX__
 DESTDIR?=$(PREFIX)
 
 OBJECTS:=\
@@ -49,8 +49,6 @@ all_static: $(OUT)/libccmd.a
 
 all_shared: $(OUT)/libccmd.so
 
-all: all_static all_shared
-
 clean:
 	rm -rf $(OUT)
 
@@ -68,7 +66,9 @@ install_shared:
 install_headers:
 	install -Dm644 $(BASEDIR)/include/ccmd.h $(DESTDIR)/include/ccmd.h
 
-install: install_static install_shared install_headers
+all: __ALL__
+
+install: __INSTALL__ install_headers
 
 uninstall:
 	rm -f $(DESTDIR)/include/ccmd.h
