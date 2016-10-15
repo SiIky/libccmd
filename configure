@@ -2,8 +2,8 @@
 base=$(dirname "$(readlink -f "$0")")
 . "$base/cbuild"
 
-static="-D __ENABLE_STATIC__"
-shared="-D __ENABLE_SHARED__"
+static="-D__ENABLE_STATIC__"
+shared="-D__ENABLE_SHARED__"
 
 show_help() {
     cat <<EOF
@@ -34,7 +34,7 @@ do
     val=$(parsearg -v "$1")
     case "$key" in
         --help) show_help; exit 0 ;;
-        --prefix) prefix="-D __PREFIX__=$val" ;;
+        --prefix) prefix="-D__PREFIX__=$val" ;;
         --enable-static) ;;
         --disable-static) static= ;;
         --enable-shared) ;;
@@ -44,12 +44,12 @@ do
     shift
 done
 
-all="-D __ALL__="
+all="-D__ALL__="
 [ "$static" ] && add all all_static
 [ "$shared" ] && add all all_shared
 
-install="-D __INSTALL__="
+install="-D__INSTALL__="
 [ "$static" ] && add install all_static
 [ "$shared" ] && add install all_shared
 
-cpp "$static" "$shared" "$all" "$install"
+cpp "$all" "$install"

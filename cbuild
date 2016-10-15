@@ -1,24 +1,17 @@
 # vim: set ft=sh:
+set -e
 base=$(dirname "$(readlink -f "$0")")
-[ "$(readlink -f .)" == "$base" ] && {
-    echo "Building in-tree is discouraged"
-    echo
-    echo "    mkdir build"
-    echo "    cd build"
-    echo "    ../configure"
-    echo
-}
 
-prefix="-D __PREFIX__=/usr/local"
-cflags="-D __CFLAGS__=$CFLAGS"
-ldflags="-D __LDFLAGS__=$LDFLAGS"
+prefix="-D__PREFIX__=/usr/local"
+cflags="-D__CFLAGS__=$CFLAGS"
+ldflags="-D__LDFLAGS__=$LDFLAGS"
 [ -z "$CC" ] && CC=$(which cc)
 [ -z "$CC" ] && CC=$(which gcc)
-[ -z "$LD" ] && LD=ld
-[ -z "$AR" ] && AR=ar
-cc="-D __CC__=$CC"
-ld="-D __LD__=$LD"
-ar="-D __AR__=$AR"
+[ -z "$LD" ] && LD=$(which ld)
+[ -z "$AR" ] && AR=$(which ar)
+cc="-D__CC__=$CC"
+ld="-D__LD__=$LD"
+ar="-D__AR__=$AR"
 
 parsearg() {
     case "$1" in
@@ -42,12 +35,10 @@ _cpp=$(which cpp)
 cpp() {
     $_cpp -P -nostdinc -traditional-cpp \
         "$base/Makefile.in" -o Makefile \
-        "-D __BASEDIR__=$base" \
+        "-D__BASEDIR__=$base" \
         $cflags $ldflags $cc $ld $ar $prefix "$@"
     $_cpp -P -nostdinc -traditional-cpp \
         "$base/config.mk.in" -o config.mk \
-        "-D __BASEDIR__=$base" \
+        "-D__BASEDIR__=$base" \
         $cflags $ldflags $cc $ld $ar $prefix "$@"
-
-    echo "Configuration complete. Next, run make."
 }

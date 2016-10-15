@@ -11,6 +11,8 @@ DESTDIR?=$(PREFIX)
 
 .DEFAULT_GOAL=all
 
+#ifndef __NO_DEFAULT_RULES__
+
 clean:
 	find . -name "*.o" -delete
 	find . -name "*.so" -delete
@@ -19,3 +21,5 @@ clean:
 distclean: clean
 	rm Makefile
 	rm config.mk
+
+#endif
